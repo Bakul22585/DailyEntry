@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/border_bottom"
+    android:paddingBottom="16dp">
+
+    <View
+        android:id="@+id/PayTourPersonPopupHeaderTitle"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_margin="100dp"
+        android:background="@drawable/border_bottom" />
+
+    <TextView
+        android:id="@+id/payTourPersonPopupHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="Pay"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/PayTourPersonPopupHeaderTitle"
+        app:layout_constraintTop_toTopOf="@+id/PayTourPersonPopupHeaderTitle" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/payTourPersonPopupHeader">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
+
+            <Spinner
+                android:id="@+id/spinnerSender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="32dp"
+                android:background="@drawable/round_border"
+                android:drawableStart="@drawable/ic_baseline_person_24_primary"
+                android:drawablePadding="16dp"
+                android:hint="Select Sender Person"
+                android:padding="16dp"/>
+
+            <Spinner
+                android:id="@+id/spinnerReceiver"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="32dp"
+                android:background="@drawable/round_border"
+                android:drawableStart="@drawable/ic_baseline_person_24_primary"
+                android:drawablePadding="16dp"
+                android:hint="Select Sender Person"
+                android:padding="16dp"/>
+
+            <EditText
+                android:id="@+id/textPayAmount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="32dp"
+                android:background="@drawable/round_border"
+                android:drawableStart="@drawable/ic_money"
+                android:drawablePadding="16dp"
+                android:ems="10"
+                android:hint="Enter Amount"
+                android:inputType="number|numberDecimal"
+                android:padding="16dp" />
+
+            <RadioGroup
+                android:id="@+id/radioGroupPaymentType"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="32dp"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radioTourPayPersonCash"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:buttonTint="@color/purple_500"
+                    android:text="Cash"
+                    android:textSize="18sp" />
+
+                <RadioButton
+                    android:id="@+id/radioTourPayPersonBank"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:buttonTint="@color/purple_500"
+                    android:text="Bank"
+                    android:textSize="18sp" />
+            </RadioGroup>
+
+            <Button
+                android:id="@+id/btnPayTourPerson"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="32dp"
+                android:background="@drawable/round_bg"
+                android:text="Pay"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

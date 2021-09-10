@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "463951409224",
+    "project_id": "daily-entry-3d594",
+    "storage_bucket": "daily-entry-3d594.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:463951409224:android:8ae23ee23cea433acce87d",
+        "android_client_info": {
+          "package_name": "com.example.dailyentry"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "463951409224-i99v0uudi0jhko2kh4l9431blo9v7ni0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvI050-MK8uMOoxS2ujvYK1-vDF67Pt5k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "463951409224-i99v0uudi0jhko2kh4l9431blo9v7ni0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

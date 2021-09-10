@@ -1,0 +1,165 @@
+package com.example.dailyentry;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class RestPasswordActivity extends AppCompatActivity {
+
+    private AdView mAdView;
+    EditText RestCode, Password, ConfirmPassword;
+    TextView RestCodeError, PasswordError, ConfirmPasswordError;
+    Button ResetPassword;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_rest_password);
+
+        RestCode = findViewById(R.id.editTextResetCode);
+        RestCodeError = findViewById(R.id.txtResetCodeError);
+        Password = findViewById(R.id.editTextResetPassword);
+        PasswordError = findViewById(R.id.txtResetPasswordError);
+        ConfirmPassword = findViewById(R.id.editTextResetConfirmPassword);
+        ConfirmPasswordError = findViewById(R.id.txtResetConfirmPasswordError);
+        ResetPassword = findViewById(R.id.btnResetPassword);
+
+        AdView adView = new AdView(this);
+        adView.setAdSize(AdSize.BANNER);
+        adView.setAdUnitId(String.valueOf(R.string.banner_unit));
+
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+
+        mAdView = findViewById(R.id.adViewResetPassword);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
+        final ProgressDialog progressDialog = new ProgressDialog(this, R.style.DialogTheme);
+        progressDialog.setCancelable(false); // set cancelable to false
+        progressDialog.setMessage("Please Wait"); // set message
+
+        ResetPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ResetPassword.setEnabled(false);
+                Boolean successBoolean = true;
+                progressDialog.show();
+
+                if (RestCode.getText().toString().equals("")) {
+                    successBoolean = false;
+                    RestCodeError.setVisibility(View.VISIBLE);
+                }
+
+                if (!RestCode.getText().toString().equals("")) {
+                    RestCodeError.setVisibility(View.GONE);
+                }
+
+                if (Password.getText().toString().equals("")) {
+                    successBoolean = false;
+                    PasswordError.setVisibility(View.VISIBLE);
+                }
+                if (!Password.getText().toString().equals("")) {
+                    PasswordError.setVisibility(View.GONE);
+                }
+
+                if (ConfirmPassword.getText().toString().equals("")) {
+                    successBoolean = false;
+                    ConfirmPasswordError.setText("Enter Confirmation Password");
+                    ConfirmPasswordError.setVisibility(View.VISIBLE);
+                }
+                if (!ConfirmPassword.getText().toString().equals("")) {
+                    ConfirmPasswordError.setVisibility(View.GONE);
+                }
+
+                if (!ConfirmPassword.getText().toString().equals("") && !ConfirmPassword.getText().toString().equals(Password.getText().toString())) {
+                    successBoolean = false;
+                    ConfirmPasswordError.setText("Confirmation password must be the same as password");
+                    ConfirmPasswordError.setVisibility(View.VISIBLE);
+                }
+
+                if (successBoolean) {
+                    RequestQueue requestQueue = Volley.newRequestQueue(RestPasswordActivity.this);
+                    String URL = "http://restrictionsolution.com/ci/DailyEntry/user/restpassword";
+
+                    StringRequest stringRequest = new StringRequest(Request.Method.POST, URL,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                progressDialog.dismiss();
+                                try {
+                                    JSONObject responseData = new JSONObject(response);
+                                    Toast.makeText(getApplicationContext(), responseData.getString("message"), Toast.LENGTH_LONG).show();
+                                    ResetPassword.setEnabled(true);
+                                    if (responseData.getBoolean("success")) {
+                                        Intent intent = new Intent(RestPasswordActivity.this, LoginActivity.class);
+                                        startActivity(intent);
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                ResetPassword.setEnabled(true);
+                                progressDialog.dismiss();
+                            }
+                        }
+                    ) {
+                        @Override
+                        public Map<String, String> getHeaders() throws AuthFailureError {
+                            final Map<String, String> headers = new HashMap<>();
+                            headers.put("Content-Type", "application/x-www-form-urlencoded");
+
+                            return headers;
+                        }
+
+                        @Override
+                        protected Map<String, String> getParams() throws AuthFailureError {
+                            Map<String,String> params = new HashMap<String, String>();
+                            params.put("code", RestCode.getText().toString());
+                            params.put("password", Password.getText().toString());
+                            return params;
+                        }
+                    };
+                    requestQueue.add(stringRequest);
+                } else {
+                    ResetPassword.setEnabled(true);
+                    progressDialog.dismiss();
+                }
+            }
+        });
+    }
+}
